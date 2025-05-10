@@ -1,7 +1,12 @@
+import sys
+import os
+# Add the parent directory to sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 import argparse
-from src.settings import settings
-from src.scripts.download_artifacts import download_artifacts
-from src.scripts.export_model_to_onnx import export_model_to_onnx
+from settings import settings
+from scripts.download_artifacts import download_artifacts
+from scripts.export_model_to_onnx import export_model_to_onnx
 
 
 def main(script=None):
