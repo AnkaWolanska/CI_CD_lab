@@ -1,4 +1,4 @@
-from settings import Settings
+from src.settings import Settings
 
 
 def test_default_values():
