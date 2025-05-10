@@ -1,5 +1,5 @@
 import argparse
-from settings import settings
+from CI_CD_lab.src.settings import settings
 from src.scripts.download_artifacts import download_artifacts
 from src.scripts.export_model_to_onnx import export_model_to_onnx
 
