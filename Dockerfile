@@ -1,4 +1,4 @@
-FROM python:3.12-slim-bookworm as builder
+FROM python:3.12-slim-bookworm AS builder
 
 WORKDIR /app
 
@@ -17,7 +17,6 @@ ENV PATH="/app/.venv/bin:$PATH"
 
 COPY --from=builder /app/.venv /app/.venv
 
-COPY settings.py settings.py
 COPY app.py app.py
 COPY src/ ./src/
 COPY artifacts/onnx/twitter-sentiment-pl-base.onnx ./artifacts/onnx/twitter-sentiment-pl-base.onnx
