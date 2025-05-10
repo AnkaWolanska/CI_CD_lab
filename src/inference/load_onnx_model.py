@@ -1,6 +1,6 @@
 import os
 import onnxruntime as ort
-from settings import Settings
+from CI_CD_lab.src.settings import Settings
 from tokenizers import Tokenizer
 
 

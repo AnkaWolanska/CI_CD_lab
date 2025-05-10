@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from src.inference import Inference
-from settings import settings
+from CI_CD_lab.src.settings import settings
 from src.app.models import PredictSentimentResponse, PredictSentimentRequest
 
 app = FastAPI()

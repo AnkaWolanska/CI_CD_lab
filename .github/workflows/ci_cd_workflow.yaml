@@ -42,8 +42,7 @@ jobs:
            run: echo "PYTHONPATH=$(pwd)" >> $GITHUB_ENV
            
          - name: Download model artifacts
-           run: python src/scripts/main.py --script download
+           run: uv run src/scripts/main.py --script download
            
          - name: Export model to ONNX
-           run: python src/scripts/main.py --script export
-           
+           run: uv run src/scripts/main.py --script export
