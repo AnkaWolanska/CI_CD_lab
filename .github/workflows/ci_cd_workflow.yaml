@@ -1,52 +1,63 @@
-name: CI/CD workflow
+name: CI/CD Workflow
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      steps:
+        description: 'Steps to be executed'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - integration
+          - all
 
 jobs:
    integration:
-      name: checks_and_tests
+      name: Continuous Integration - Checks and Tests
       runs-on: ubuntu-latest
+      if: ${{ inputs.steps == 'integration' || inputs.steps == 'all' }}
       steps:
-         - name: Checkout code repo
+         - name: Checkout Code Repository
            uses: actions/checkout@v4
            
-         - name: Setup uv
+         - name: Setup UV Tool
            run: curl -LsSf https://astral.sh/uv/install.sh | sh
            
-         - name: Install dependencies
+         - name: Install Integration Dependencies
            run: uv sync --group integration
            
-         - name: Run ruff check
+         - name: Run Ruff Check
            run: uv run ruff check
            
-         - name: Run pip-audit
+         - name: Run Pip Audit
            run: uv run pip-audit --vulnerability-service pypi
 
          - name: Run PyTest
            run: uv run pytest tests
 
    deployment:
-      name: model-deployment
+      name: Model Deployment
       runs-on: ubuntu-latest
+      if: ${{ inputs.steps == 'all' && ( needs.integration.result == 'success' ) }}
       steps:
-         - name: Checkout code repo
+         - name: Checkout Code Repository
            uses: actions/checkout@v4
            
-         - name: Setup uv
+         - name: Setup UV Tool
            run: curl -LsSf https://astral.sh/uv/install.sh | sh
            
-         - name: Install deployment dependencies
+         - name: Install Deployment Dependencies
            run: uv sync --group deployment
            
          - name: Set PYTHONPATH
            run: echo "PYTHONPATH=$(pwd)" >> $GITHUB_ENV
            
-         - name: Download model artifacts
+         - name: Download Model Artifacts
            run: uv run src/scripts/main.py --script download
            
-         - name: Export model to ONNX
+         - name: Export Model to ONNX
            run: uv run src/scripts/main.py --script export
 
-         - name: Build docker image
+         - name: Build Docker Image
            run: docker build -t polish-sentiment-app-onnx:latest .
-

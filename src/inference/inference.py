@@ -1,7 +1,7 @@
 import cleantext
 import numpy as np
 
-from settings import Settings
+from CI_CD_lab.src.settings import Settings
 from .load_onnx_model import load_onnx_model
 
 
