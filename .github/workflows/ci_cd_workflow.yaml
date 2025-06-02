@@ -77,18 +77,18 @@ jobs:
            with:
             mask-password: 'true' 
 
-         - name: Push docker image
+         - name: Push Docker Image
            id: push-docker
            shell: bash
            env:
-            REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-            REPOSITORY: cicdhomework
-            IMAGE_TAG: ${{ github.sha }}
+             REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+             REPOSITORY: cicdhomework
+             IMAGE_TAG: ${{ github.sha }}
            run: |
-            docker tag polish-sentiment-app-onnx:latest $IMAGE_TAG 
-            docker push "$REGISTRY/$REPOSITORY:$IMAGE_TAG"
-            echo "IMAGE $IMAGE_TAG is pushed to $REGISTRY/$REPOSITORY"
-            echo "image_tag=$IMAGE_TAG" 
-            echo "full_image=$REGISTRY/$REPOSITORY:$IMAGE_TAG"
+             docker tag polish-sentiment-app-onnx:latest "$REGISTRY/$REPOSITORY:$IMAGE_TAG"
+             docker push "$REGISTRY/$REPOSITORY:$IMAGE_TAG"
+             echo "IMAGE $IMAGE_TAG is pushed to $REGISTRY/$REPOSITORY"
+             echo "image_tag=$IMAGE_TAG" 
+             echo "full_image=$REGISTRY/$REPOSITORY:$IMAGE_TAG" 
 
 
