@@ -62,3 +62,33 @@ jobs:
 
          - name: Build Docker Image
            run: docker build -t polish-sentiment-app-onnx:latest .
+
+         - name: Set up AWS credentials
+           uses: aws-actions/configure-aws-credentials@v1
+           with:
+             aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+             aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+             aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+             aws-region: us-east-1
+         
+         - name: Login to ECR
+           id: login-ecr
+           uses: aws-actions/amazon-ecr-login@v2
+           with:
+            mask-password: 'true' 
+
+         - name: Push docker image
+           id: push-docker
+           shell: bash
+           env:
+            REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+            REPOSITORY: ${{ cicdhomework }}
+            IMAGE_TAG: ${{ github.sha }}
+           run: |
+            docker tag polish-sentiment-app-onnx:latest $IMAGE_TAG 
+            docker push "$REGISTRY/$REPOSITORY:$IMAGE_TAG"
+            echo "IMAGE $IMAGE_TAG is pushed to $REGISTRY/$REPOSITORY"
+            echo "image_tag=$IMAGE_TAG" 
+            echo "full_image=$REGISTRY/$REPOSITORY:$IMAGE_TAG"
+
+
