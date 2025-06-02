@@ -82,7 +82,7 @@ jobs:
            shell: bash
            env:
             REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-            REPOSITORY: ${{ cicdhomework }}
+            REPOSITORY: cicdhomework
             IMAGE_TAG: ${{ github.sha }}
            run: |
             docker tag polish-sentiment-app-onnx:latest $IMAGE_TAG 
